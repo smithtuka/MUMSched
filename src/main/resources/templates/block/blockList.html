@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Block</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col"><legend>Blocks</legend></div>
+			<div class="col text-right">
+				<div class="button-margin">
+					<a role="button" class="btn btn-primary"
+						th:href="@{/block/add}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Block</a>
+				</div>
+			</div>
+		</div>
+		<div class="mb-1" >&nbsp;</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">Entry</th>
+					<th class="text-center">Month</th>
+					<th class="text-center">From</th>
+					<th class="text-center">To</th>
+					<th style="width:110px;">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${blockList.empty}">
+					<td colspan="5">No Block</td>
+				</tr>
+				<tr th:each="item : ${blockList}">
+					<td th:text="${item.schedule?.entry?.name}" class="text-center"></td>
+					<td th:text="${item.month}" class="text-center"></td>
+					<td th:text="${item.fromDate}" class="text-center"></td>
+					<td th:text="${item.toDate}" class="text-center"></td>
+					<td class="text-center">
+						<a role="button" class="btn btn-primary"
+							th:href="@{/block/edit/{id}(id=${item.id})}">
+							<i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a role="button" class="btn btn-primary" cmd="delete"
+							th:href="@{/block/delete/{id}(id=${item.id})}">
+							<i class="fa fa-trash" aria-hidden="true"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</th:block>
+	<th:block layout:fragment="footer">
+		<script>
+			$(document).ready(function() {
+				addDelete("[cmd='delete']");
+			});
+		</script>
+	</th:block>
+</body>
+</html>

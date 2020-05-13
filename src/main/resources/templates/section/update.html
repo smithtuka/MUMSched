@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Section</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<form id="frmUpdate" action="#" th:action="@{/section/save}" th:object="${section}" method="post">
+			<input type="hidden" th:field="*{id}"/>
+			<fieldset>
+		         <legend><span th:text="${section.id == 0} ? #{cmd.new} : #{cmd.update}"></span> <span th:text="#{field.section}">Section</span></legend>
+				  <div class="form-row">
+				   	<div class="col-md-6 mb-3">
+					  	<label for="schedule"><label for="schedule">Entry(Had Schedule)</label></label>
+					  	 <select class="form-control" id="schedule" name="schedule" th:disabled="${section.id > 0}">
+					  	 	 <option value="0">[Please select one]</option>
+	                          <option th:each="s : ${allSchedule}" 
+	                                  th:value="${s.id}" 
+	                                  th:text="${s?.entry?.name}" th:selected="${s.id == section?.block?.schedule?.id}"></option>
+	                      </select>
+                      </div>
+				  </div>
+				  <div class="form-row">
+				   	<div class="col-md-6 mb-3">
+					  	<label for="blockList" >Block</label>
+					  	 <select class="form-control" id="block" name="block" 
+	                          th:field="*{block}" th:classappend="${#fields.hasErrors('block')}? 'is-invalid'">
+	                          <option value="0">[Please select one]</option>
+	                          <option th:each="b : ${blockList}" 
+	                                  th:value="${b.id}" 
+	                                  th:text="${b.month}" ></option>
+	                      </select>
+				      	<div class="invalid-feedback" th:if="${#fields.hasErrors('block')}" th:errors="*{block}"></div>
+                      </div>
+				  </div>
+				  <div class="form-row">
+				   	<div class="col-md-6 mb-3">
+					  	<label for="faculty" >Faculty</label>
+					  	 <select class="form-control" id="faculty" name="faculty" 
+	                          th:field="*{faculty}" th:classappend="${#fields.hasErrors('faculty')}? 'is-invalid'">
+	                          <option value="0">[Please select one]</option>
+	                          <option th:each="f : ${facultyList}" 
+	                                  th:value="${f.id}" 
+	                                  th:text="${f.user.getFullname()}" ></option>
+	                      </select>
+	                      <div class="invalid-feedback" th:if="${#fields.hasErrors('faculty')}" th:errors="*{faculty}"></div>
+                      </div>
+				  </div>
+				  <div class="form-row">
+				   	<div class="col-md-6 mb-3">
+					  	<label for="course" >Course</label>
+					  	 <select class="form-control" id="course" name="course" 
+	                          th:field="*{course}">
+	                          <option value="0">[Please select one]</option>
+	                          <option th:each="c : ${courseList}" 
+	                                  th:value="${c.id}" 
+	                                  th:text="${c.name}" ></option>
+	                      </select>
+                      </div>
+				  </div>
+				  <div class="form-row">
+		         	<button type="submit" class="btn btn-primary" th:text="#{cmd.save}">Save</button>
+		         	&nbsp;
+		         	<a class="btn btn-primary" href="/section/"  th:text="#{cmd.backToList}">Back to List</a>
+		         </div>
+		    </fieldset>
+		</form>
+	</th:block>
+	<th:block layout:fragment="footer">
+		<script>
+			$(document).ready(function(e){
+				
+				/* $("#frmUpdate").submit(function(e) {
+					e.preventDefault();
+					
+					var form = $(this);
+					var values = {};
+					
+					$.each(this, function(i, v){
+			            var input = $(v);
+			            if(input.attr("name") == "_csrf")
+							return;
+			            
+			            values[input.attr("name")] = input.val();
+				        delete values["undefined"];
+			    		});
+					
+					var data=values;
+				  
+					postJson(form.attr("action"), data, function(response){
+						dialog.alert(respone);
+					});
+				}); */
+				
+				
+				$("#schedule").change(function(e){
+					changeLoad(e, $("#block"), "/section/getBlockList/" + $(e.target).val());
+				});
+				
+				$("#block").change(function(e){
+					restSelect($("#course"));
+					changeLoad(e, $("#faculty"), '/section/getFacultyList/' + $("#schedule").val() + '/' + $(e.target).val());
+				});
+				
+				
+				$("#faculty").change(function(e){
+					changeLoad(e, $("#course"), '/section/getCourseList/' + $("#schedule").val() + '/' + $(e.target).val());
+				});
+				
+				function changeLoad(e, selectObj, url){
+					if( $(e.target).val() == 0)
+						return;
+					
+					post(url, function(data){
+						buildOptions(selectObj, data);
+					});
+				}
+				
+				function buildOptions(selectObj, data){
+					restSelect(selectObj);
+
+					$.each(data, function(key, val){
+						$(selectObj).append('<option value="' + key + '">' + val + '</option>');
+					});
+				}
+				
+				function restSelect(selectObj){
+					$(selectObj).find('option').remove();
+					$(selectObj).append('<option value="0">[Please select one]</option>');
+				}
+			});
+		</script>
+	</th:block>
+</body>
+</html>

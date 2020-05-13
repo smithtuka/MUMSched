@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Section list</title>
+</head>
+<body>
+<form th:action="@{/registerforsectionpost}" th:object="${faculty}" method="post">
+			<input type="hidden" th:field="*{id}" />
+
+	<th:block layout:fragment="content">
+		<legend>Register for a Section</legend>
+		<div class="mb-1" >&nbsp;</div>
+	<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">Entry</th>
+					<th class="text-center">Block</th>
+					<th class="text-center">Faculty</th>
+					<th class="text-center">Course</th>
+					<th class="text-center" style="width:160px">Register</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${sectionList.empty}">
+					<td colspan="5" class="text-center">No Section</td>
+				</tr>
+				<tr th:each="item : ${sectionList}">
+					<td th:text="${item.block.schedule.entry.name}" class="text-center"></td>
+					<td th:text="${item.block.month}" class="text-center"></td>
+					<td th:text="${item.faculty.user.firstName}" class="text-center"></td>
+					<td th:text="${item.course.name}" class="text-right"></td>
+					
+					<td class="text-center">
+						<a th:unless="${#lists.contains(mySections, item.id)}" role="button" class="btn btn-primary"
+							th:href="@{/registerforsectionpost/{id}(id=${item.id})}">
+							<i class="fa fa-sign-in" aria-hidden="true"></i></a>
+							
+						<a th:if="${#lists.contains(mySections, item.id)}" role="button" class="btn btn-success"
+							th:href="@{/registerforsection/signout/{id}(id=${item.id})}">
+							<i class="fa  fa-times" aria-hidden="true"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+			</th:block>
+			</form>
+</body>
+</html>

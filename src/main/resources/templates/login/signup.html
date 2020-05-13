@@ -1,0 +1,65 @@
+<!DOCTYPE html >
+<html layout:decorator="shared/loginlayout"
+	xmlns:th="http://www.thymeleaf.org">
+	<head>
+    	<title>SignUp page</title>
+	</head>
+<body>
+	<th:block layout:fragment="header">
+	</th:block>
+	
+	<th:block layout:fragment="content">
+	
+    <div class="card card-register mx-auto mt-5">
+      <div class="card-header" th:text="#{form.signup.title}"></div>
+      <div class="card-body">
+        <form th:action="@{/signup}" method="POST"  th:object="${user}">
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="txtFirstName">First name</label>
+                <input class="form-control" id="txtFirstName" type="text" name="firstName" aria-describedby="nameHelp" placeholder="Enter first name" th:field="*{firstName}" />
+                <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="validation-message"></label>
+              </div>
+              <div class="col-md-6">
+                <label for="txtLastName">Last name</label>
+                <input class="form-control" id="txtLastName" type="text" aria-describedby="nameHelp" placeholder="Enter last name" th:field="*{lastName}"  />
+                <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="validation-message"></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="txtEmail">Email address</label>
+            <input class="form-control" id="txtEmail" type="email" aria-describedby="emailHelp" placeholder="Enter email"  th:field="*{username}" />
+            <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="validation-message"></label>
+          </div>
+          <div class="form-group">
+            <div class="form-row">
+              <div class="col-md-6">
+                <label for="txtPassword">Password</label>
+                <input class="form-control" id="txtPassword" type="password"  placeholder="Password" th:field="*{password}" />
+            	<label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
+              </div>
+              <div class="col-md-6">
+                <label for="txtConfirmPassword">Confirm password</label>
+                <input class="form-control" id="txtConfirmPassword" type="password" placeholder="Confirm password"  th:field="*{passwordConfirm}" />
+            	<label th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" class="validation-message"></label>
+              </div>
+            </div>
+          </div>
+		  <button class="btn btn-primary btn-block" type="submit" th:text="Register"></button>
+        </form>
+        <div class="text-center">
+          <a class="d-block small mt-3" href="/login">Login Page</a>
+          <a class="d-block small" href="/forgot-password">Forgot Password?</a>
+        </div>
+      </div>
+    </div>
+ 
+	</th:block>
+	
+	<th:block layout:fragment="footer">
+	</th:block>
+	
+</body>
+</html>

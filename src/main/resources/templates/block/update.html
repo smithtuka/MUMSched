@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Block</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<form action="#" th:action="@{/block/save}" th:object="${block}" method="post">
+			<input type="hidden" th:field="*{id}"/>
+			<fieldset>
+		         <legend><span th:text="${block.id == 0} ? #{cmd.new} : #{cmd.update}"></span> <span th:text="#{field.block}">Block</span></legend>
+		          
+				  <div class="form-row">
+				   	<div class="col-md-6 mb-3">
+					  	<label for="schedule">Entry(Had Schedule)</label>
+					  	 <select class="form-control" id="schedule" name="schedule" 
+	                          th:field="*{schedule}" th:classappend="${#fields.hasErrors('month')}? 'is-invalid'">
+	                          <option th:each="val : ${allSchedule}" 
+	                                  th:value="${val.id}" 
+	                                  th:text="${val?.entry?.name}"></option>
+	                      </select>
+                      </div>
+				  </div>
+				  <div class="form-row">
+				   	<div class="col-md-6 mb-3">
+					  	<label for="month" th:text="#{field.month}">Month</label>
+					  	 <select class="form-control" id="month" name="month" 
+	                          th:field="*{month}" th:classappend="${#fields.hasErrors('month')}? 'is-invalid'">
+	                          <option th:each="eval : ${T(mum.swe.mumsched.enums.MonthEnum).values()}" th:value="${eval}" th:text="${eval}"></option>
+	                      </select>
+	                      <div class="invalid-feedback" th:if="${#fields.hasErrors('month')}" th:errors="*{month}"></div>
+                      </div>
+				  </div>
+				  <div class="form-row">
+				    <div class="col-md-6 mb-3">
+				      <label for="fromDate" th:text="#{field.fromDate}">From</label>
+				      <input type="date" class="form-control" id="fromDate" placeholder="From" th:field="*{fromDate}"
+				      	th:classappend="${#fields.hasErrors('fromDate')}? 'is-invalid'" required/>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('fromDate')}" th:errors="*{fromDate}"></div>
+				    </div>
+				  </div>
+				  <div class="form-row">
+				    <div class="col-md-6 mb-3">
+				      <label for="toDate" th:text="#{field.toDate}">To</label>
+				      <input type="date" class="form-control" id="toDate" placeholder="From" th:field="*{toDate}" 
+				      	th:classappend="${#fields.hasErrors('toDate')}? 'is-invalid'" required/>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('toDate')}" th:errors="*{toDate}"></div>
+				    </div>
+				  </div>
+				  <div class="form-row">
+		         	<button type="submit" class="btn btn-primary" th:text="#{cmd.save}">Save</button>
+		         	&nbsp;
+		         	<a class="btn btn-primary" href="/block/"  th:text="#{cmd.backToList}">Back to List</a>
+		         </div>
+		    </fieldset>
+		</form>
+	</th:block>
+</body>
+</html>

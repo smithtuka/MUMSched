@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Entry</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col"><legend>Entries</legend></div>
+			<div class="col text-right">
+				<div class="button-margin">
+					<a role="button" class="btn btn-primary"
+						th:href="@{/entry/add}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Entry</a>
+				</div>
+			</div>
+		</div>
+		<div class="mb-1" >&nbsp;</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th rowspan="2" class="text-center" style="vertical-align: middle !important;" th:text="#{field.name}">Name</th>
+					<th rowspan="2" class="text-center" style="vertical-align: middle !important;" th:text="#{field.entryDate}">Date</th>
+					<th colspan="3" class="text-center" style="vertical-align: middle !important;">FPP</th>
+					<th colspan="3" class="text-center" style="vertical-align: middle !important;">MPP</th>
+					<!-- <th rowspan="2" class="text-center" style="vertical-align: middle !important;">Faculties</th>
+					<th rowspan="2" class="text-center" style="vertical-align: middle !important;">Courses</th> -->
+					<th rowspan="2" class="text-center" style="vertical-align: middle !important;" style="width:155px;">&nbsp;</th>
+				</tr>
+				<tr>
+					<th class="text-center" th:text="#{field.total}">Total</th>
+					<th class="text-center">CPT</th>
+					<th class="text-center">OPT</th>
+					<th class="text-center" th:text="#{field.total}">Total</th>
+					<th class="text-center">CPT</th>
+					<th class="text-center">OPT</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${entryList.empty}">
+					<td colspan="9">No Entry</td>
+				</tr>
+				<tr th:each="item : ${entryList}">
+					<td th:text="${item.name}" class="text-center"></td>
+					<td th:text="${item.entryDate}" class="text-center"></td>
+					<!-- FPP -->
+					<td th:text="${item.fpp}" class="text-right"></td>
+					<td th:text="${item.fppCPT}" class="text-right"></td>
+					<td th:text="${item.fppOPT}" class="text-right"></td>
+					<!-- MPP -->
+					<td th:text="${item.mpp}" class="text-right"></td>
+					<td th:text="${item.mppCPT}" class="text-right"></td>
+					<td th:text="${item.mppOPT}" class="text-right"></td>
+					<!-- <td th:text="${item.facutiesName}" class="text-center"></td>
+					<td th:text="${item.coursesName}" class="text-center"></td> -->
+					<td class="text-center">
+						<a role="button" class="btn btn-primary" th:href="@{/schedule/{action}/{id}(id=${item.schedule != null &&item.schedule.id == 0 ? item.schedule.id : item.id},action=${item.schedule != null && item.schedule.id > 0 ?'view' : 'generate'})}" >
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+						</a>
+						<a role="button" class="btn btn-primary"
+							th:href="@{/entry/edit/{id}(id=${item.id})}">
+							<i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a role="button" class="btn btn-primary" cmd="delete"
+							th:href="@{/entry/delete/{id}(id=${item.id})}">
+							<i class="fa fa-trash" aria-hidden="true"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</th:block>
+	<th:block layout:fragment="footer">
+		<script>
+			$(document).ready(function() {
+				addDelete("[cmd='delete']");
+			});
+		</script>
+	</th:block>
+</body>
+</html>

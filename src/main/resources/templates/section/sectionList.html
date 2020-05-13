@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Entry</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col"><legend>Sections</legend></div>
+			<div class="col text-right">
+				<div class="button-margin">
+					<a role="button" class="btn btn-primary"
+						th:href="@{/section/add}"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;New Section</a>
+				</div>
+			</div>
+		</div>
+		<div class="mb-1" >&nbsp;</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">Entry</th>
+					<th class="text-center">Block</th>
+					<th class="text-center">Faculty</th>
+					<th class="text-center">Course</th>
+					<th class="text-center" style="width:160px">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${sectionList.empty}">
+					<td colspan="5">No Section</td>
+				</tr>
+				<tr th:each="item : ${sectionList}">
+					<td th:text="${item.block.schedule.entry.name}" class="text-center"></td>
+					<td th:text="${item.block.month}" class="text-center"></td>
+					<td th:text="${item.faculty.user.firstName}" class="text-center"></td>
+					<td th:text="${item.course.name}" class="text-right"></td>
+					
+					<td class="text-center">
+						<a role="button" class="btn btn-primary"
+							th:href="@{/section/edit/{id}(id=${item.id})}">
+							<i class="fa fa-pencil" aria-hidden="true"></i></a>
+						<a role="button" class="btn btn-primary" cmd="delete"
+							th:href="@{/section/delete/{id}(id=${item.id})}">
+							<i class="fa fa-trash" aria-hidden="true"></i></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</th:block>
+	<th:block layout:fragment="footer">
+		<script>
+			$(document).ready(function() {
+				addDelete("[cmd='delete']");
+			});
+		</script>
+	</th:block>
+</body>
+</html>

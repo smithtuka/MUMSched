@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Entry</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col"><h2>Schedules</h2></div>
+		</div>
+		<div class="mb-1" >&nbsp;</div>
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th class="text-center">Entry</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${#lists.size(schedules) == 0}">
+					<td colspan="9">No Schedules</td>
+				</tr>
+				<tr th:each="schedule : ${schedules}">
+					<td th:text="${schedule.entry.name}" class="text-center"></td>
+					<td class="text-center">
+						<a role="button" class="btn btn-primary"
+							th:href="${'/scheduleView/' + schedule.id }"
+							><span class="fa fa fa-calendar" aria-hidden="true"></span></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</th:block>
+	<th:block layout:fragment="footer">
+		</script>
+	</th:block>
+</body>
+</html>

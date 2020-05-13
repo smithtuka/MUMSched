@@ -1,0 +1,2 @@
+INSERT INTO users (id, username, password, last_name, first_name, role) VALUES (1, 'admin@mum.edu', '$2a$10$l9r6qEgOWHAZtzlSH9NP6uSpa06ESE4gAjbRBrGJPUCDB2VyatDVS', '', '', 'ROLE_ADMIN') 
+ON DUPLICATE KEY UPDATE username = 'admin@mum.edu', password='$2a$10$l9r6qEgOWHAZtzlSH9NP6uSpa06ESE4gAjbRBrGJPUCDB2VyatDVS', role='ROLE_ADMIN';

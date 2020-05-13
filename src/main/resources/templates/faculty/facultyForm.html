@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Faculty Profile</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<form th:action="@{/facultyprofile}" th:object="${faculty}" method="post">
+			<input type="hidden" th:field="*{id}" />
+			<input type="hidden" th:field="*{user.id}" />
+			<fieldset>
+				<legend>Faculty profile</legend>
+				<div class="form-row">
+					<div class="col-md-6">
+						<div class="form-group row">
+							<label class=" col-sm-3 col-form-label">First name:</label>
+							<div class="col-sm-8">
+								<input class="form-control" id="txtFirstName" type="text"
+									name="user.firstName" aria-describedby="nameHelp"
+									placeholder="Enter first name" th:field="*{user.firstName}"
+									 />
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label">Last name:</label>
+							<div class="col-sm-8">
+								<input class="form-control" id="txtLastName" type="text"
+									aria-describedby="nameHelp" placeholder="Enter last name"
+									th:field="*{user.lastName}"  />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="col-md-6">
+						<div class="form-group row">
+							<label class=" col-sm-3 col-form-label">First name:</label>
+							<div class="col-sm-8">	
+							    <select th:field="*{monthEnums}" class="form-control col-sm-12" multiple>
+							       <option th:each="monthEnum: ${T(mum.swe.mumsched.enums.MonthEnum).values()}" th:value="${monthEnum}" 
+							       	th:text="${monthEnum}"></option>
+							    </select>						
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label">Courses:</label>
+							<div class="col-sm-8">
+								<select class="form-control" id="courseCmbId" name="courseCmbName" th:field="*{courses}" multiple>
+									<option th:each="course : ${courses}" th:value="${course.id}"
+										th:text="${course.code}+' : '+${course.name}"></option>
+								</select>  
+							</div>
+						</div>
+					</div>
+				</div>	
+					<div class="form-row">
+					<div class="col-md-6">
+						<div class="form-group row">
+							<label class=" col-sm-3 col-form-label">Number of sections:</label>
+							<div class="col-sm-8">	
+							    		<input class="form-control" id="txtNumberOfSectionsPerE" type="number"
+									aria-describedby="nameHelp" 
+									th:field="*{numberOfSectionPerEntry}"  />				
+							</div>
+						</div>
+					</div>
+				</div>	
+			<button type="submit" class="btn btn-primary">Save</button>
+			</fieldset>
+		</form>
+	</th:block>
+	<th:block layout:fragment="footer">
+		<script>
+			
+		</script>
+	</th:block>
+</body>
+</html>

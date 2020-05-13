@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html layout:decorator="shared/mainlayout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Entry</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<form action="#" th:action="@{/entry/save}" th:object="${entry}" method="post">
+			<input type="hidden" th:field="*{id}"/>
+			<fieldset>
+		         <legend><span th:text="${entry.id == 0} ? #{cmd.new} : #{cmd.view}"></span> <span th:text="#{field.entry}">Entry</span></legend>
+		         <div class="form-row">
+				    <div class="col-md-6 mb-3">
+				      <label for="name" th:text="#{field.name}">Name</label>
+				      <input type="text" class="form-control" id="name" placeholder="Name" th:field="*{name}" 
+				      	th:classappend="${#fields.hasErrors('name')}? 'is-invalid'"/>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				    </div>
+				    <div class="col-md-6 mb-3">
+				      <label for="entryDate" th:text="#{field.entryDate}">Entry Date</label>
+				      <input type="date" class="form-control" id="entryDate" placeholder="Entry Date" th:field="*{entryDate}" required/>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('entryDate')}" th:errors="*{entryDate}"></div>
+				    </div>
+				  </div>
+				  <!-- FPP -->
+				   <div class="form-row">
+				    <div class="col-md-4 mb-3">
+				      <label for="name" >FPP CPT</label>
+				       <input type="number" class="form-control fpp" id="fppCPT" placeholder="FPP CPT" th:field="*{fppCPT}" 
+				      		th:classappend="${#fields.hasErrors('fppCPT')}? 'is-invalid'" required />
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('fppCPT')}" th:errors="*{fppCPT}"></div>
+				    </div>
+				    <div class="col-md-4 mb-3">
+				      <label for="entryDate" >FPP OPT</label>
+				      <input type="number" class="form-control fpp" id="fppOPT" placeholder="FPP OPT" th:field="*{fppOPT}" 
+				      	th:classappend="${#fields.hasErrors('fppOPT')}? 'is-invalid'" required/>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('fppOPT')}" th:errors="*{fppOPT}"></div>
+				    </div>
+				    <div class="col-md-4 mb-3">
+				      <label for="fpp" th:text="#{field.total}">Total FPP</label>
+				      <input type="number" class="form-control" id="fpp" placeholder="FPP" th:field="*{fpp}" 
+				      	th:classappend="${#fields.hasErrors('fpp')}? 'is-invalid'" readonly/>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('fpp')}" th:errors="*{fpp}"></div>
+				    </div>
+				  </div>
+				  <!-- MPP -->
+				   <div class="form-row">
+				    <div class="col-md-4 mb-3">
+				      <label for="name" >MPP CPT</label>
+				       <input type="number" class="form-control mpp" id="mppCPT" placeholder="mpp CPT" th:field="*{mppCPT}" 
+				      		th:classappend="${#fields.hasErrors('mppCPT')}? 'is-invalid'" required />
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('mppCPT')}" th:errors="*{mppCPT}"></div>
+				    </div>
+				    <div class="col-md-4 mb-3">
+				      <label for="entryDate" >MPP OPT</label>
+				      <input type="number" class="form-control mpp" id="mppOPT" placeholder="mpp OPT" th:field="*{mppOPT}" 
+				      	th:classappend="${#fields.hasErrors('mppOPT')}? 'is-invalid'" required/>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('mppOPT')}" th:errors="*{mppOPT}"></div>
+				    </div>
+				    <div class="col-md-4 mb-3">
+				      <label for="mpp" th:text="#{field.total}">Total MPP</label>
+				      <input type="number" class="form-control" id="mpp" placeholder="mpp" th:field="*{mpp}" 
+				      	th:classappend="${#fields.hasErrors('mpp')}? 'is-invalid'" readonly>
+				      <div class="invalid-feedback" th:if="${#fields.hasErrors('mpp')}" th:errors="*{mpp}"></div>
+				    </div>
+				  </div>
+				  <div class="form-row">
+				   	<div class="col-md-9 mb-3">
+					  	<label for="facultyList" >Faculty</label>
+					  	 <select class="form-control" id="facultyList" name="facultyList" 
+	                          multiple="multiple" 
+	                          th:field="*{facultyList}">
+	                          <option th:each="val : ${allFacultyList}" 
+	                                  th:value="${val.id}" 
+	                                  th:text="${val.user.getFullname()}"></option>
+	                      </select>
+                      </div>
+				  </div>
+				  <div class="form-row">
+				   	<div class="col-md-9 mb-3">
+					  	<label for="courseList" >Course</label>
+					  	 <select class="form-control" id="courseList" name="courseList" 
+	                          multiple="multiple" 
+	                          th:field="*{courseList}">
+	                          <option th:each="val : ${allCourseList}" 
+	                                  th:value="${val.id}" 
+	                                  th:text="${val.name}"></option>
+	                      </select>
+                      </div>
+				  </div>
+				  <div class="form-row">
+		         	<button type="submit" class="btn btn-primary" th:text="#{cmd.save}">Save</button>
+		         	&nbsp;
+		         	<a class="btn btn-primary" href="/entry/"  th:text="#{cmd.backToList}">Back to List</a>
+		         </div>
+		    </fieldset>
+		</form>
+	</th:block>
+	<th:block layout:fragment="footer">
+		<script>
+			function updateTotalFPP(){
+				$("#fpp").val(parseInt($("#fppCPT").val()) + parseInt($("#fppOPT").val()));
+			}
+			
+			function updateTotalMPP(){
+				$("#mpp").val(parseInt($("#mppCPT").val()) + parseInt($("#mppOPT").val()));
+			}
+		
+			$(document).ready(function() {
+				// update
+				updateTotalFPP();
+				updateTotalMPP();
+				
+				$(".fpp").change(function(){
+					updateTotalFPP()
+				});
+				
+				$(".mpp").change(function(){
+					updateTotalMPP();
+				});
+			});
+		</script>
+	</th:block>
+</body>
+</html>
