@@ -27,11 +27,12 @@ import mum.swe.mumsched.service.EntryService;
 import mum.swe.mumsched.service.ScheduleService;
 
 /**
- * @author Tam Huynh
+ * @author Fahad
  * @date May 10, 2020
  */
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
+
 	@Autowired
 	ScheduleRepository repo;
 
