@@ -3,6 +3,7 @@ package mum.swe.mumsched.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +20,11 @@ import mum.swe.mumsched.service.UserService;
  */
 @Service("studentService")
 public class StudentServiceImpl  implements StudentService {
+
+	@Qualifier("studentRepository")
     @Autowired
     private StudentRepository studentRepository;
+
     @Autowired
     private UserService userService;
     
@@ -29,7 +33,9 @@ public class StudentServiceImpl  implements StudentService {
     
     @Override
     public Student save(Student student) {
-    	User user = student.getUser();       	
+
+    	User user = student.getUser();
+
     	if(student.getId() == null)
     	{
     		user = userService.save(user);
